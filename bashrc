@@ -16,6 +16,7 @@
 #   8.   System Operations & Information
 #   9.   Web Development
 #  10.   Reminders & Notes
+#  11.   Oracle Client Env. Variables
 
 
 #   -------------------------------
@@ -57,6 +58,7 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 
 #   Set Paths
 #   ------------------------------------------------------------
+export PATH=/Applications/*/Contents/MacOS/:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/texbin:$PATH
@@ -199,6 +201,7 @@ fix() {
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
     source $(brew --prefix)/etc/bash_completion
+    export HOMEBREW_GITHUB_API_TOKEN=$(cat /Users/agprado/ConfFiles/Brew/token)
 fi
 
 
@@ -258,7 +261,7 @@ my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 #   ---------------------------
 # tunnelBuyati() {ssh -D 8080 -C -N Buyati;}
 
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
+alias myip='curl report-ip.appspot.com'             # myip:         Public facing IP Address
 alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
 alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
 alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
@@ -332,14 +335,14 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 
 #   ---------------------------------------
-#   11.  REMINDERS & NOTES
+#   10.  REMINDERS & NOTES
 #   ---------------------------------------
 
 #   remove_disk: spin down unneeded disk
@@ -368,16 +371,22 @@ eval "$(pyenv virtualenv-init -)"
 #   the above create files that are almost all zeros - if random bytes are desired
 #   then use: ~/Dev/Perl/randBytes 1048576 > 10MB.dat
 
-# added by Anaconda 2.3.0 installer
-export PATH="/Users/qaruk/anaconda/bin:$PATH"
-
-# added by Anaconda3 2.5.0 installer
-export PATH="/Users/qaruk/anaconda/bin:$PATH"
-
-##
-# Your previous /Users/qaruk/.bash_profile file was backed up as /Users/qaruk/.bash_profile.macports-saved_2016-03-04_at_21:35:13
-##
-
 # MacPorts Installer addition on 2016-03-04_at_21:35:13: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
+
+
+#   ---------------------------------------
+#   10.  REMINDERS & NOTES
+#   ---------------------------------------
+
+# ORACLE client `instantclient_11_2` path:
+# /Users/agprado/OracleDriver/instantclient_12_1
+
+export ORACLE_HOME=/Users/agprado/.oracle/12.1/client64/instantclient_12_1
+
+export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH
+export PATH=~/instantclient_12_1:$PATH
+
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$ORACLE_HOME
+export NLS_LANG=".UTF8"
