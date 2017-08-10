@@ -340,6 +340,12 @@ export PROJECT_HOME=$HOME/Devel
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+function cd () {
+    builtin cd "$@"    # perform the actual cd
+    if [[ -d ./venv || -d ./env ]] ; then
+        source ./venv/bin/activate
+    fi
+}
 
 #   ---------------------------------------
 #   10.  REMINDERS & NOTES
