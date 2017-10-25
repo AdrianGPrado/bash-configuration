@@ -1,0 +1,28 @@
+#   ---------------------------------------
+#   10.  PYTHON DEVELOPMENT
+#   ---------------------------------------
+
+## pip should only run if there is a virtualenv currently activated
+export PIP_REQUIRE_VIRTUALENV=true
+## cache pip-installed packages to avoid re-downloading
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+#source /usr/local/bin/virtualenvwrapper.sh
+
+if [ -d $HOME/.pyenv ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+
+function cd () {
+    builtin cd "$@"    # perform the actual cd
+    if [[ -d ./venv ]] ; then
+        source ./venv/bin/activate
+    elif [[ -d ./env ]] ; then
+        source ./env/bin/activate
+    fi
+}
+
+fi

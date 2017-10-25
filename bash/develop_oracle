@@ -1,0 +1,10 @@
+#   ---------------------------------------
+#   10.  REMINDERS & NOTES
+#   ---------------------------------------
+
+if [ -d $HOME/.oracle ]; then
+    export ORACLE_HOME=$HOME/.oracle/instantclient_12_1
+    export TNS_ADMIN=${ORACLE_HOME}/network/admin
+    export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH
+    export DYLD_LIBRARY_PATH=$ORACLE_HOME:$DYLD_LIBRARY_PATH
+fi

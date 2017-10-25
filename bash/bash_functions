@@ -1,0 +1,78 @@
+# #   -----------------------------
+# #   2.  File and Folder Management
+# #   -----------------------------
+
+# mcd:          Makes new Dir and jumps inside
+mcd () { mkdir -p "$1" && cd "$1"; }
+
+# trash:        Moves a file to the MacOS trash
+trash () { command mv "$@" ~/.Trash ; }
+
+# ql:           Opens any file in MacOS Quicklook Preview
+ql () { qlmanage -p "$*" >& /dev/null; }
+
+
+#   -------------------------------
+#   3.  FILE AND FOLDER MANAGEMENT
+#   -------------------------------
+
+# zipf:         To create a ZIP archive of a folder
+zipf () { zip -r "$1".zip "$1" ; }
+
+#   cdf:  'Cd's to frontmost window of MacOS Finder
+#   ------------------------------------------------------
+cdf () {
+    currFolderPath=$( /usr/bin/osascript <<EOT
+        tell application "Finder"
+            try
+        set currFolder to (folder of the front window as alias)
+            on error
+        set currFolder to (path to desktop folder as alias)
+            end try
+            POSIX path of currFolder
+        end tell
+EOT
+    )
+    echo "cd to \"$currFolderPath\""
+    cd "$currFolderPath"
+}
+
+#   extract:  Extract most know archives with one command
+#   ---------------------------------------------------------
+extract () {
+    if [ -f $1 ] ; then
+      case $1 in
+        *.tar.bz2)   tar xjf $1     ;;
+        *.tar.gz)    tar xzf $1     ;;
+        *.bz2)       bunzip2 $1     ;;
+        *.rar)       unrar e $1     ;;
+        *.gz)        gunzip $1      ;;
+        *.tar)       tar xf $1      ;;
+        *.tbz2)      tar xjf $1     ;;
+        *.tgz)       tar xzf $1     ;;
+        *.zip)       unzip $1       ;;
+        *.Z)         uncompress $1  ;;
+        *.7z)        7z x $1        ;;
+        *)     echo "'$1' cannot be extracted via extract()" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
+}
+
+#   tar:  tar managment made easy
+#   ---------------------------------------------------------
+mktar(){ tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
+mktgz(){ tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+mktbz(){ tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
+
+#   file premissions: recursively fix dir/file permissions on a given directory
+#   ---------------------------------------------------------
+fix() {
+  if [ -d $1 ]; then
+    find $1 -type d -exec chmod 755 {} \;
+    find $1 -type f -exec chmod 644 {} \;
+  else
+    echo "$1 is not a directory."
+  fi
+}
