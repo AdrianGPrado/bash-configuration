@@ -7,7 +7,7 @@ CONFIG_DIR=$1
 link (){
   source=$1
   destination=$2
-  echo "# linkt ${source} to ${destination}"
+  echo "# link ${source} to ${destination}"
   ln -sf $source $destination
 }
 
