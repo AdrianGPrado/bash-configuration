@@ -55,6 +55,11 @@ export NLS_LANG=".UTF8"
 # #   2.  MAKE TERMINAL BETTER
 # #   -----------------------------
 
+# Load ssh-agent on login
+if [ -d $HOME/.ssh ]; then
+  eval $(ssh-agent -s)
+fi
+
 # Aliases
 source "${HOME}/.bash/bash_aliases"
 
@@ -76,7 +81,7 @@ source "${HOME}/.bash/bash_networking"
 #   4.  If System is not Linux. MacOS
 #   ---------------------------
 if [ $OS != "Linux" ]; then
-    source "${HOME}/.bash/bash_not_linux"
+  source "${HOME}/.bash/bash_not_linux"
 fi
 
 #   ---------------------------------------
