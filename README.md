@@ -13,8 +13,11 @@ files and folder inside this repository.
 ### Automated Installation
 
 Alternatively it is possible to automate the configuration of the environment
+by running the following two commands on your bash terminal
 
 
 .. code:: bash
 
     $ curl -L https://raw.githubusercontent.com/AdrianGPrado/bash-configuration/master/scripts/installer.sh | bash
+
+    $ source ~/.bashrc
