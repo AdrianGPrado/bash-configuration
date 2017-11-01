@@ -51,13 +51,14 @@ export EDITOR=/usr/bin/vim
 #   ------------------------------------------------------------
 export NLS_LANG=".UTF8"
 
-# #   -----------------------------
-# #   2.  MAKE TERMINAL BETTER
-# #   -----------------------------
+#   -----------------------------
+#   2.  MAKE TERMINAL BETTER
+#   -----------------------------
 
 # Load ssh-agent on login
 if [ -d $HOME/.ssh ]; then
-  eval $(ssh-agent -s)
+  eval $(ssh-agent -s) >& /dev/null
+  ssh-add ${HOME}/.ssh/* >& /dev/null
 fi
 
 # Aliases
@@ -76,6 +77,10 @@ source "${HOME}/.bash/bash_proceses"
 source "${HOME}/.bash/bash_networking"
 
 # Systems operations & information
+if [ -d ${HOME}/.ssh ]; then
+	eval $(ssh-agent -s) >& /dev/null
+	ssh-add ${HOME}/.ssh/* >& /dev/null
+fi
 
 #   ---------------------------
 #   4.  If System is not Linux. MacOS
