@@ -76,3 +76,7 @@ fix() {
     echo "$1 is not a directory."
   fi
 }
+
+activateSensors() {
+  watch -n 0.1 cat '/sys/bus/iio/devices/iio:device'*/*raw*
+}
