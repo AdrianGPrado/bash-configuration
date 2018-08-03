@@ -1,35 +1,3 @@
-#  ---------------------------------------------------------------------------
-#
-#  Description:  This file is bashrc.
-#  Location:    ~/.bashrc
-#  Loads:   with a non interactive shell.
-#           (more or less: when you don't type user ans passd)
-#
-#  Sections:
-#   1.   Environment Configuration
-#   2.   Make Terminal Better (remapping defaults and adding functionality)
-#   3.   File and Folder Management
-#   4.   Brew configuration
-#   5.   Development environment
-
-#   -------------------------------
-#   1.  ENVIRONMENT CONFIGURATION
-#   -------------------------------
-
-#   Git branch in PS1
-#   - Instalation instructions
-#
-#     - Create 'bash' diretory
-#       $ mkdir -p $UNIX_CONFIG_FILES_PWD/bash_config/bash
-#       $ ln -s $UNIX_CONFIG_FILES_PWD/bash_config/bash $HOME/.bash
-#
-#     - Clone repository:
-#       $ git clone https://github.com/jimeh/git-aware-prompt.git ~/.bash
-#
-#     - Enjoy
-#
-#   ------------------------------------------------------------
-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -92,7 +60,6 @@ if [ "$color_prompt" = yes ]; then
     export GITAWAREPROMPT=~/.bash/git-aware-prompt
     source "${GITAWAREPROMPT}/main.sh"
     PS1="\[\033[38;5;6m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] @ \[$(tput sgr0)\]\[\033[38;5;34m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;3m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;117m\]\$git_branch\[$(tput sgr0)\]:\n\$ "
-    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -107,25 +74,21 @@ xterm*|rxvt*)
     ;;
 esac
 
-#   Set Default Editor
-#   ------------------------------------------------------------
-export EDITOR=/usr/bin/vim
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-#   Set Default character encoding
-#   ------------------------------------------------------------
-export NLS_LANG=".UTF8"
-
-#   -----------------------------
-#   2.  MAKE TERMINAL BETTER
-#   -----------------------------
-
-# Load ssh-agent on login
-if [ -d $HOME/.ssh ]; then
-  eval $(ssh-agent -s) >& /dev/null
-  ssh-add ${HOME}/.ssh/* >& /dev/null
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
-# Aliases
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -135,64 +98,68 @@ alias l='ls -CF'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-if [ -f ~/.bash/bash_aliases ]; then
-	. ~/.bash/bash_aliases
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash/bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [[ -f "$HOME/.bash/bash_aliases" ]]; then
+    source "$HOME/.bash/bash_aliases"
 fi
 
 # Functions
-if [ -f ~/.bash/bash_functions]; then
-	. ~/.bash/bash_functions
+if [[ -f "$HOME/.bash/bash_functions" ]]; then
+    source "$HOME/.bash/bash_functions"
 fi
 
 # Enhance search function
-if [ -f ~/.bash/bash_find_utils]; then
-	. ~/.bash/bash_find_utils
+if [[ -f "$HOME/.bash/bash_find_utils" ]]; then
+    source "$HOME/.bash/bash_find_utils"
 fi
 
 # Process management
-if [ -f ~/.bash/bash_proceses]; then
-	. ~/.bash/bash_proceses
+if [[ -f "$HOME/.bash/bash_proceses" ]]; then
+    source "$HOME/.bash/bash_proceses"
 fi
 
 # Networking
-if [ -f ~/.bash/bash_networking]; then
-	. ~/.bash/bash_networking
+if [[ -f "$HOME/.bash/bash_networking" ]]; then
+    source "$HOME/.bash/bash_networking"
 fi
 
-# Systems operations & information
-if [ -d ${HOME}/.ssh ]; then
-	eval $(ssh-agent -s) >& /dev/null
-	ssh-add ${HOME}/.ssh/* >& /dev/null
+
+#   ---------------------------------------
+#   5.  DEVELOPMENT
+#   ---------------------------------------
+if [[ -f "$HOME/.bash/develop_tools" ]]; then
+    source "$HOME/.bash/develop_tools"
+fi
+
+#   5.1 ORACLE DB
+if [[ -f "$HOME/.bash/develop_oracle" ]]; then
+    source "$HOME/.bash/develop_oracle"
+fi
+
+#   5.2 WEB DEVELOPMENT
+if [[ -f "$HOME/.bash/develop_web" ]]; then
+    source "$HOME/.bash/develop_web"
+fi
+
+#   5.3 DEVELOPMENT PYTHON
+if [[ -f "$HOME/.bash/develop_python" ]]; then
+    source "$HOME/.bash/develop_python"
+fi
+
+#   5.4 DEVELOPMENT GO
+if [[ -f "$HOME/.bash/develop_go" ]]; then
+    source "$HOME/.bash/develop_go"
 fi
 
 #   ---------------------------
 #   4.  If System is not Linux. MacOS
 #   ---------------------------
-if [ $OS != "Linux" ]; then
-  . ~/.bash/bash_not_linux
-fi
-
-#   ---------------------------------------
-#   5.  DEVELOPMENT
-#   ---------------------------------------
-if [ -f ~/.bash/develop_tools]; then
-	. ~/.bash/develop_tools
-fi
-
-#   5.1 ORACLE DB
-if [ -f ~/.bash/develop_oracle]; then
-	. ~/.bash/develop_oracle
-fi
-
-#   5.2 WEB DEVELOPMENT
-if [ -f ~/.bash/develop_web]; then
-	. ~/.bash/develop_web
-fi
-
-#   5.3 DEVELOPMENT PYTHON
-if [ -f ~/.bash/develop_python]; then
-	. ~/.bash/develop_python
-fi
+#if [ $OS != "Linux" ]; then
+#  . ~/.bash/bash_not_linux
+#fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

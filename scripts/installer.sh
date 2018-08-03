@@ -5,7 +5,7 @@ set -e
 if [ -z "$UNIX_CONFIG_PATH" ]; then
   UNIX_CONFIG_PATH="${HOME}/.unix_configuration_files"
 fi
-echo "Define Unix Configuration Files folder in ${UNIX_CONFIG_PATH}"
+echo "Define Unix Configuration Files folder in: ${UNIX_CONFIG_PATH}"
 
 if [ ! -d "$UNIX_CONFIG_PATH" ]; then
   mkdir ${UNIX_CONFIG_PATH}
