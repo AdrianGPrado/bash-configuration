@@ -1,0 +1,20 @@
+#   ---------------------------------------
+#   11.  GO DEVELOPMENT
+#   ---------------------------------------
+
+if [ -d $HOME/.goenv ]; then
+	export GOENV_ROOT="$HOME/.goenv"
+	export PATH="$GOENV_ROOT/bin:$PATH"
+	
+	# Autocompletion
+	eval "$(goenv init -)"
+fi
+
+
+develop_juju () {
+	export JUJU_MAKE_GODEPS=true
+   	export GOPATH=$HOME/Projects/Canonical/juju;
+	export PATH=$GOPATH/bin:$PATH
+        export JUJU_HOME=$HOME/Projects/Canonical/juju_project/
+	export JUJU_DEV_FEATURE_FLAGS=developer-mode
+}
